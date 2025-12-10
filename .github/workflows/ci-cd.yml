@@ -1,50 +1,38 @@
-name: CI-CD
+name: CI Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  ci:
-    runs-on: windows-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: "8.0.x"
-
-      - name: Restore
-        run: dotnet restore ./Indotalent.sln
-
-      - name: Build
-        run: dotnet build ./Indotalent.sln -c Release --no-restore
-
-      - name: Test
-        run: dotnet test -c Release || echo "No tests found"
-
-  cd:
-    needs: ci
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to your Laptop (CI/CD)
-        uses: appleboy/ssh-action@master
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_KEY }}
-          script: |
-            cd "C:/Users/ocervantes/OneDrive - Cannon Security Products/Desktop/WMS/InnovaTrack"
-            git pull
-            dotnet build Indotalent.sln -c Release
+          dotnet-version: 9.0.x
 
-            echo "Killing existing process..."
-            taskkill /IM "InnovaTrack.exe" /F || echo "nothing to kill"
+      - name: Restore dependencies
+        run: dotnet restore Indotalent.sln
 
-            echo "Starting new version..."
-            start "" "C:\Users\ocervantes\OneDrive - Cannon Security Products\Desktop\WMS\InnovaTrack\Presentation\bin\Release\net8.0\InnovaTrack.exe"
+      - name: Build solution
+        run: dotnet build Indotalent.sln --configuration Release --no-restore
+
+      - name: Run tests (si tienes)
+        run: dotnet test Indotalent.sln --no-build --verbosity normal
+
+      - name: Publish build artifacts
+        run: dotnet publish Indotalent.sln -c Release -o output
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-build
+          path: output/
