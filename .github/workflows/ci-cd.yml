@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI-CD Pipeline
 
 on:
   push:
@@ -8,10 +8,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v4
 
     - name: Setup .NET
@@ -22,12 +22,14 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build
+    - name: Build Project
       run: dotnet build --configuration Release --no-restore
 
-    - name: Upload build artifacts
+    - name: Publish Project
+      run: dotnet publish --configuration Release -o ./publish
+
+    - name: Upload Publish Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: build-output
-        path: |
-          **/bin/Release/
+        name: site-publish
+        path: ./publish
