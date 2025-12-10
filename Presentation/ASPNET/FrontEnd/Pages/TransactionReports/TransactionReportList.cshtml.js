@@ -126,8 +126,9 @@
                         }
                     },
                     toolbarClick: (args) => {
-                        if (args.item.id === 'MainGrid_excelexport') {
+                        if (args.item.id && args.item.id.includes('_excelexport')) {
                             mainGrid.obj.excelExport();
+                            return;
                         }
                     }
                 });

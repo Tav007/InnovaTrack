@@ -22,7 +22,6 @@
             </div>
         </div>
 
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <div id="navbarnav" class="navbar-nav w-100">
@@ -47,18 +46,48 @@
             const currentUrl = window.location.pathname;
             const firstSegment = currentUrl.split('/')[1];
 
-            function filterMenu(menuData, userRoles) {
+            function filterMenu(menuData) {
+                const allowedSegments = [
+                    'Dashboards',
+                    // INVENTARIO
+                    'UnitMeasures',
+                    'ProductGroups',
+                    'Products',
+                    'Warehouses',
+                    'GoodsReceives',
+                    'DeliveryOrders',
+                    'TransferOuts',
+                    'TransferIns',
+                    'PositiveAdjustments',
+                    'NegativeAdjustments',
+                    'Scrappings',
+                    'StockCounts',
+                    'TransactionReports',
+                    'StockReports',
+                    'MovementReports',
+
+                    // SEGURIDAD / PERFIL / CONFIGURACIÓN
+                    'Users',
+                    'Roles',
+                    'Profiles',
+                
+                    // 'NumberSequences'
+                ];
+
                 const childMenus = menuData.filter(menu => {
-                    if (menu.navURL) {
-                        const firstSegment = menu.navURL.split('/')[1];
-                        return userRoles.some(role => role.toLowerCase() === firstSegment.toLowerCase());
-                    }
-                    return false;
+                    if (!menu.navURL) return false;
+
+                    const firstSegment = menu.navURL.split('/')[1]; 
+                    return allowedSegments.includes(firstSegment);
                 });
 
                 const validChildIds = new Set(childMenus.map(menu => menu.id));
                 const parentIds = new Set(childMenus.map(menu => menu.pid));
-                return menuData.filter(menu => validChildIds.has(menu.id) || parentIds.has(menu.id));
+
+                return menuData.filter(menu =>
+                    validChildIds.has(menu.id) ||
+                    parentIds.has(menu.id)
+                );
             }
 
             function updateMenuSelection(menuData, segment) {
@@ -88,9 +117,10 @@
                 return menuData;
             }
 
-            const userRoles = StorageManager.getUserRoles();
+            const userRoles = StorageManager.getUserRoles(); 
             let menuData = StorageManager.getMenuNavigation();
-            const filteredMenu = filterMenu(menuData, userRoles);
+
+            const filteredMenu = filterMenu(menuData);
             menuData = updateMenuSelection(filteredMenu, firstSegment);
 
             const mainMenu = new ej.navigations.TreeView({

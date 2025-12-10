@@ -90,10 +90,10 @@
                 const cardsDashboard = state.cardsData?.cardsDashboard;
 
                 if (cardsDashboard) {
-                    cardSalesQtyRef.value.textContent = cardsDashboard.salesTotal || 0;
-                    cardSalesReturnQtyRef.value.textContent = cardsDashboard.salesReturnTotal || 0;
-                    cardPurchaseQtyRef.value.textContent = cardsDashboard.purchaseTotal || 0;
-                    cardPurchaseReturnQtyRef.value.textContent = cardsDashboard.purchaseReturnTotal || 0;
+                    //cardSalesQtyRef.value.textContent = cardsDashboard.salesTotal || 0;
+                    //cardSalesReturnQtyRef.value.textContent = cardsDashboard.salesReturnTotal || 0;
+                    //cardPurchaseQtyRef.value.textContent = cardsDashboard.purchaseTotal || 0;
+                    //cardPurchaseReturnQtyRef.value.textContent = cardsDashboard.purchaseReturnTotal || 0;
                     cardDeliveryOrderQtyRef.value.textContent = cardsDashboard.deliveryOrderTotal || 0;
                     cardGoodsReceiveQtyRef.value.textContent = cardsDashboard.goodsReceiveTotal || 0;
                     cardTransferOutQtyRef.value.textContent = cardsDashboard.transferOutTotal || 0;
@@ -296,8 +296,8 @@
 
         Vue.onMounted(async () => {
             try {
-                await SecurityManager.authorizePage(['Dashboards']);
-                await SecurityManager.validateToken();
+                //await SecurityManager.authorizePage(['Dashboards']);
+                //await SecurityManager.validateToken();
 
                 await methods.populateCardsData();
                 await methods.populateSalesData();

@@ -141,7 +141,7 @@
 
                             Swal.fire({
                                 icon: 'success',
-                                title: state.deleteMode ? 'Delete Successful' : 'Save Successful',
+                                title: state.deleteMode ? 'Delete Successfully' : 'Save Successfully',
                                 text: 'Form will be closed...',
                                 timer: 2000,
                                 showConfirmButton: false
@@ -153,7 +153,7 @@
                         } else {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Delete Successful',
+                                title: 'Delete Successfully',
                                 text: 'Form will be closed...',
                                 timer: 2000,
                                 showConfirmButton: false
@@ -203,7 +203,7 @@
             } catch (e) {
                 console.error('page init error:', e);
             } finally {
-                
+
             }
         });
 
@@ -275,8 +275,12 @@
                         }
                     },
                     toolbarClick: async (args) => {
-                        if (args.item.id === 'MainGrid_excelexport') {
+                        //console.log('Toolbar click:', args.item.id); // Para debug
+
+                        
+                        if (args.item.id && args.item.id.includes('_excelexport')) {
                             mainGrid.obj.excelExport();
+                            return; 
                         }
 
                         if (args.item.id === 'AddCustom') {

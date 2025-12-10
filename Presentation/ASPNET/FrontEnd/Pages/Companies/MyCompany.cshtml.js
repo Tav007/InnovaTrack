@@ -148,6 +148,7 @@
                     toolbarClick: (args) => {
                         if (args.item.id === 'MainGrid_excelexport') {
                             mainGrid.obj.excelExport();
+                            return; 
                         }
 
                         if (args.item.id === 'EditCustom') {

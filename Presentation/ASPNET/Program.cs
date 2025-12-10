@@ -4,7 +4,6 @@ using ASPNET.FrontEnd;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//>>> Create Logs folder for Serilog
 var logPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "app_data", "logs");
 if (!Directory.Exists(logPath))
 {

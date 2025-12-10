@@ -85,12 +85,12 @@
                         StorageManager.saveCompany(data[0]);
 
                         const companyName = data[0]?.name ?? 'Default Company';
-                        const companyWeb = data[0]?.website ?? '#';
+                        // const companyWeb = data[0]?.website ?? '#';
                         const year = new Date().getFullYear();
                         const currency = data[0]?.currency ?? '---';
 
                         document.getElementById('footerContent').innerHTML =
-                            `© ${year} <a href="${companyWeb}">${companyName}</a>, All Right Reserved.`;
+                            `© ${year} <a href="${InnovaTrack}">${companyName}</a>, All Right Reserved.`;
                         document.getElementById('topbarContent').innerHTML =
                             `Currency: ${currency}`;
                     }
